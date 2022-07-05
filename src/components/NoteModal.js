@@ -5,34 +5,31 @@ import { useContext, useEffect } from "react";
 import AppContext from "../contexts/AppContext";
 
 export default function TestModal(props) {
-  const { categories } = useContext(AppContext);
-  const { setClickedCategory } = useContext(AppContext);
-  const { questionData } = useContext(AppContext);
+  const { note } = useContext(AppContext);
+  const { setClickedNoteCategory } = useContext(AppContext);
+  const { noteData } = useContext(AppContext);
   const { setAppState } = useContext(AppContext);
 
   useEffect(() => {
-    console.log("questionData test modal: ", questionData);
-  }, [questionData]);
+    console.log("questionData test modal: ", noteData);
+  }, [noteData]);
   return (
     <Modal>
       <ModalHeader>
-        <p>Test Seçin</p>
-
+        <p>Çalışmak İstediğiniz Ders</p>
         <span onClick={props.close}>
           <i class="fa-solid fa-circle-xmark"></i>
         </span>
       </ModalHeader>
-
       <ModalBody>
-        {categories?.map((cat, id) => (
+        {note?.map((cat, id) => (
           <div className="items" key={id}>
             <div className="item">
-              <p>{cat?.categoryName}</p>
-
+              <p>{cat?.noteCategoryName}</p>
               <i
                 onClick={() => {
-                  setAppState("quiz");
-                  setClickedCategory(cat?.categoryId);
+                  setAppState("result");
+                  setClickedNoteCategory(cat?.categoryId);
                 }}
                 className="fa-solid fa-angle-right btn-test"
               />

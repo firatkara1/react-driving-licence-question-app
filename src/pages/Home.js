@@ -2,6 +2,7 @@ import React from "react";
 import ModalRoot from "../modules/modals/components/ModalRoot";
 import ModalService from "../modules/modals/services/ModalService";
 import TestModal from "../components/TestModal";
+import NoteModal from "../components/NoteModal";
 import Card from "../components/Card";
 
 import questionImg from "../images/question.png";
@@ -16,8 +17,12 @@ function Home() {
   // const [questionData, setquestionData] = useState([]);
   // const [categoryId, setCategoryId] = useState([]);
 
-  const addModal = () => {
+  const modalTest = () => {
     ModalService.open(TestModal);
+  };
+
+  const modalNote = () => {
+    ModalService.open(NoteModal);
   };
 
   const notice = () => {
@@ -39,13 +44,13 @@ function Home() {
     <div className="home-container">
       <ModalRoot />
       <Card
-        handleClick={addModal}
+        handleClick={modalTest}
         img={questionImg}
         title={"Soru çöz"}
         desc={"Bu kategoride ehliyet sınavına yönelik sorular bulunmaktadır"}
       />
       <Card
-        handleClick={notice}
+        handleClick={modalNote}
         img={notesImg}
         title={"Ders Notları"}
         desc={"Bu kategoride ehliyet sınavı ders notları bulunmaktadır"}

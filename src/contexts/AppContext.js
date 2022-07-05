@@ -5,9 +5,15 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [index, setIndex] = useState(0);
+
   const [categories, setCategories] = useState(null);
   const [clickedCategory, setClickedCategory] = useState(null);
   const [questionData, setQuestionData] = useState("");
+
+  const [note, setNote] = useState(null);
+  const [clickedNoteCategory, setClickedNoteCategory] = useState(null);
+  const [noteData, setNoteData] = useState("");
+
   const [appState, setAppState] = useState("home");
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState(0);
@@ -24,6 +30,11 @@ export const AppProvider = ({ children }) => {
     setClickedCategory,
     questionData,
     setQuestionData,
+    note,
+    clickedNoteCategory,
+    setClickedNoteCategory,
+    noteData,
+    setNoteData,
     appState,
     setAppState,
     selectedAnswer,
@@ -70,7 +81,31 @@ export const AppProvider = ({ children }) => {
     fetchData();
   }, [clickedCategory]);
 
-  //   console.log("AppContext Clicked Category Test: ", clickedCategory);
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = collection(db, "notes");
+      const querySnapShot = await getDocs(q);
+
+      const queryCategories = querySnapShot.docs.map((detail) => ({
+        categoryId: detail.id,
+        noteCategoryName: detail.data().noteCategoryName,
+      }));
+      setNote([...queryCategories]);
+
+      const subcollectionSnapshot = await getDocs(
+        collection(db, "notes", clickedNoteCategory, "note")
+      );
+
+      const queryQuestionData = subcollectionSnapshot?.docs.map((q) => ({
+        id: q.id,
+        noteDesc: q.data().noteDesc,
+        noteTitle: q.data().noteTitle,
+      }));
+      setNoteData([...queryQuestionData]);
+    };
+    fetchData();
+  }, [clickedNoteCategory]);
+  // s console.log("AppContext Clicked Note Category Test: ", clickedNoteCategory);
 
   return (
     <div className="main">
